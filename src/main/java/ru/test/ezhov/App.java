@@ -9,9 +9,22 @@ import static spark.Spark.*;
  */
 public class App {
     public static void main(String[] args) {
-        port(8080);
-        System.out.println(System.getProperty("user.home"));
-        staticFiles.externalLocation(System.getProperty("user.home") + "/public/webroot");
+        if (args.length == 0) {
+            System.out.println("USE ARGUMENT PORT...");
+            System.out.println("EXIT");
+            return;
+        }
+        int port = Integer.parseInt(args[0]);
+        System.out.println("PORT: " + port);
+        port(port);
+        String userHome = System.getProperty("user.home");
+        System.out.println("SERVER START");
+        System.out.println("USER HOME: " + userHome);
+        String directoryWebRoot = userHome + "/public/webroot";
+        System.out.println("DIRECTORY WEB ROOT: " + directoryWebRoot);
+        System.out.println("FOR TEST PATH: " + "/test");
+        System.out.println();
+        staticFiles.externalLocation(directoryWebRoot);
         get("/test", (request, response) -> "text");
     }
 }
